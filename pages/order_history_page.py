@@ -17,3 +17,7 @@ class OrderHistoryPage(BasePage):
         order_id = order_text.split('#')[1]
 
         return order_id
+
+    @allure.step("Проверяем, что текущий URL соответствует странице истории заказов")
+    def is_on_order_history_page(self):
+        return self.get_current_url() == Urls.ORDER_HISTORY_PAGE

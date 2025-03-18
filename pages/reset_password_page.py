@@ -1,4 +1,5 @@
 import allure
+from data import Urls
 from locators import ResetPasswordLocators
 from pages.base_page import BasePage
 
@@ -32,3 +33,11 @@ class ResetPasswordPage(BasePage):
     @allure.step("Кликаем на иконку видимости пароля")
     def click_eye_button(self):
         self.click_element(ResetPasswordLocators.VIEW_PASSWORD_BUTTON)
+
+    @allure.step("Проверяем, что текущий URL соответствует странице сброса пароля")
+    def is_on_reset_page(self):
+        return self.get_current_url() == Urls.RESET_PAGE
+
+    @allure.step("Проверяем, что пароль виден")
+    def is_password_visible(self):
+        return self.is_password_text()

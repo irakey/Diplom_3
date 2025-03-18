@@ -52,3 +52,15 @@ class MainPage(BasePage):
     @allure.step("Нажимаем на кнопку 'Оформить заказ'")
     def click_order_button(self):
         self.click_element(MainPageLocators.ORDER_BUTTON)
+
+    @allure.step("Проверяем, что каунтер отображается")
+    def is_counter_visible(self):
+        return self.is_element_displayed(MainPageLocators.FLUO_BUN_COUNTER)
+
+    @allure.step("Проверяем, что кнопка 'Оформить заказ' отображается")
+    def is_order_button_visible(self):
+        return self.is_element_displayed(MainPageLocators.ORDER_BUTTON)
+
+    @allure.step("Проверяем, что текущий URL соответствует главной странице")
+    def is_on_main_page(self):
+        return self.get_current_url() == Urls.MAIN_PAGE

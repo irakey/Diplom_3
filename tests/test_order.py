@@ -1,6 +1,5 @@
 import allure
-from data import *
-from locators import OrderPopupFeedLocators, OrderFeedLocators, OrderCreatedLocators
+from data import Urls
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.order_feed_page import OrderFeedPage
@@ -20,7 +19,7 @@ class TestOrderFeed:
         order_feed.click_order()
         popup = OrderPopupFeedPage(driver)
         popup.wait_until_contents_visible()
-        assert driver.find_element(*OrderPopupFeedLocators.CONTENTS_HEADER).is_displayed()
+        assert popup.is_contents_header_visible()
 
     @allure.title("Проверка отображения заказов пользователя из раздела 'История заказов'")
     def test_users_orders_displayed_in_feed(self, driver, registration):
@@ -31,8 +30,7 @@ class TestOrderFeed:
         login_page.click_login_button()
         main_page = MainPage(driver)
         main_page.wait_order_button_visible()
-        expected_url = Urls.MAIN_PAGE
-        assert driver.current_url == expected_url
+        assert main_page.get_current_url() == Urls.MAIN_PAGE
         main_page.ingredient_drag_and_drop()
         main_page.wait_for_counter_visible()
         main_page.click_order_button()
@@ -50,9 +48,7 @@ class TestOrderFeed:
         order_id = history_page.get_order_id()
         orders_feed = OrderFeedPage(driver)
         orders_feed.navigate(Urls.ORDER_FEED_PAGE)
-        specific_order_locator = (OrderFeedLocators.SPECIFIC_ORDER_LOCATOR[0], OrderFeedLocators.SPECIFIC_ORDER_LOCATOR[1].format(order_id))
-        element = orders_feed.wait_for_element_visible(specific_order_locator)
-        assert element.is_displayed()
+        assert orders_feed.is_specific_order_visible(order_id)
 
     @allure.title("Проверка работы счетчика 'Выполнено за всё время' при создании заказа")
     def test_alltime_orders_increased(self, driver, registration):
@@ -63,8 +59,7 @@ class TestOrderFeed:
         login_page.click_login_button()
         main_page = MainPage(driver)
         main_page.wait_order_button_visible()
-        expected_url = Urls.MAIN_PAGE
-        assert driver.current_url == expected_url
+        assert main_page.get_current_url() == Urls.MAIN_PAGE
         main_page.click_order_feed_button()
         order_feed = OrderFeedPage(driver)
         order_feed.wait_for_order_feed_header()
@@ -92,8 +87,7 @@ class TestOrderFeed:
         login_page.click_login_button()
         main_page = MainPage(driver)
         main_page.wait_order_button_visible()
-        expected_url = Urls.MAIN_PAGE
-        assert driver.current_url == expected_url
+        assert main_page.get_current_url() == Urls.MAIN_PAGE
         main_page.click_order_feed_button()
         order_feed = OrderFeedPage(driver)
         order_feed.wait_for_order_feed_header()
@@ -123,8 +117,7 @@ class TestOrderFeed:
         login_page.click_login_button()
         main_page = MainPage(driver)
         main_page.wait_order_button_visible()
-        expected_url = Urls.MAIN_PAGE
-        assert driver.current_url == expected_url
+        assert main_page.get_current_url() == Urls.MAIN_PAGE
         main_page.ingredient_drag_and_drop()
         main_page.click_order_button()
         popup = OrderCreatedPage(driver)
@@ -135,6 +128,4 @@ class TestOrderFeed:
         main_return.click_order_feed_button()
         order_feed = OrderFeedPage(driver)
         order_feed.wait_for_order_feed_header()
-        specific_locator = OrderCreatedLocators.WAITING_FOR[0], OrderCreatedLocators.WAITING_FOR[1].format(result)
-        element = order_feed.wait_for_element_visible(specific_locator, timeout=999)
-        assert element.is_displayed()
+        assert order_feed.is_order_in_progress_visible(result)

@@ -53,3 +53,11 @@ class BasePage:
     @allure.step("Скролл до элемента")
     def scroll_to_bottom(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+    @allure.step("Возвращает текущий URL")
+    def get_current_url(self):
+        return self.driver.current_url
+
+    @allure.step("Проверяем, отображается ли элемент")
+    def is_element_displayed(self, locator):
+        return self.driver.find_element(*locator).is_displayed()

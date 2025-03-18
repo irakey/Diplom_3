@@ -21,3 +21,11 @@ class ProfilePage(BasePage):
     @allure.step("Дожидаемся смены URL на страницу логина")
     def wait_for_login_url(self):
         self.wait_for_url_change(Urls.LOGIN_PAGE)
+
+    @allure.step("Проверяем, что текущий URL соответствует странице профиля")
+    def is_on_profile_page(self):
+        return self.get_current_url() == Urls.PROFILE_PAGE
+
+    @allure.step("Проверяем, что текущий URL соответствует странице логина")
+    def is_on_login_page(self):
+        return self.get_current_url() == Urls.LOGIN_PAGE

@@ -1,6 +1,6 @@
 import allure
 from data import Urls
-from locators import OrderFeedLocators
+from locators import OrderFeedLocators, OrderCreatedLocators
 from pages.base_page import BasePage
 
 
@@ -36,3 +36,13 @@ class OrderFeedPage(BasePage):
     def scroll_to_todays_counter(self):
         button = self.find_element(OrderFeedLocators.TODAY_TOTAL)
         self.scroll_to_bottom(button)
+
+    @allure.step("Проверяем, что конкретный заказ отображается")
+    def is_specific_order_visible(self, order_id):
+        specific_order_locator = (OrderFeedLocators.SPECIFIC_ORDER_LOCATOR[0], OrderFeedLocators.SPECIFIC_ORDER_LOCATOR[1].format(order_id))
+        return self.is_element_displayed(specific_order_locator)
+
+    @allure.step("Проверяем, что заказ в разделе 'В работе' отображается")
+    def is_order_in_progress_visible(self, order_id):
+        specific_locator = (OrderCreatedLocators.WAITING_FOR[0], OrderCreatedLocators.WAITING_FOR[1].format(order_id))
+        return self.is_element_displayed(specific_locator)

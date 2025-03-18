@@ -1,4 +1,6 @@
 import faker
+
+from data import Urls
 from locators import ForgotPasswordLocators
 from pages.base_page import *
 
@@ -25,3 +27,7 @@ class ForgotPasswordPage(BasePage):
     @allure.step("Кликаем на кнопку 'Восстановить'")
     def click_reset_button(self):
         self.click_element(ForgotPasswordLocators.RESET_PASSWORD_BUTTON)
+
+    @allure.step("Проверяем, что текущий URL соответствует странице восстановления пароля")
+    def is_on_recovery_page(self):
+        return self.get_current_url() == Urls.RECOVERY_PAGE

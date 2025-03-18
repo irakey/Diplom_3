@@ -24,3 +24,7 @@ class OrderCreatedPage(BasePage):
     def get_just_created_orders_count(self):
         just_created = self.wait_for_element_visible(OrderCreatedLocators.JUST_CREATED_ORDER)
         return int(just_created.text)
+
+    @allure.step("Проверяем, что текст в попапе отображается")
+    def is_popup_text_visible(self):
+        return self.is_element_displayed(OrderCreatedLocators.POPUP_TEXT)
